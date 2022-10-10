@@ -1,0 +1,5 @@
+*.json
+*.bat
+Logs
+__pycache__
+*.log
