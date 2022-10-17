@@ -6,6 +6,7 @@ import pandas as pd
 import logging
 import time
 import json
+import pyautogui as pyg
 
 def verificarPausa():
     while True:
@@ -58,7 +59,26 @@ def moverArquivos():
     os.replace(f'C:\\Users\\{user_name}\\Downloads\\{nomeDoArquivo}',f'{diretorio_robo}\\{nomeDoArquivo}')
     os.chdir(f'{diretorio_robo}')
     print(f'Arquivo {nomeDoArquivo} movido!')
-    pass
+
+def locateComDelay(caminho,delay):
+    while True:
+        try:
+            time.sleep(delay)
+            imagem = pyg.locateOnScreen(caminho, confidence=0.7, grayscale=True)
+            if imagem == None:
+                print(imagem)
+            else:
+                pyg.click(imagem)
+                print(imagem)
+                break
+        except Exception as e:
+            # print(e)
+            pass
+
+def publicarPowerBI():
+    locateComDelay(r'C:\Users\vdiassob\Desktop\Python\robo-atualizacao-expedicao\screenshots\publicar.png',1)
+    locateComDelay(r'C:\Users\vdiassob\Desktop\Python\robo-atualizacao-expedicao\screenshots\salvar.png',1)
+    locateComDelay(r'C:\Users\vdiassob\Desktop\Python\robo-atualizacao-expedicao\screenshots\pesquisar.png',1)
 
 def funcao_principal():
     apagarCSVs()
@@ -88,23 +108,24 @@ def funcao_principal():
             print('Não foi possível completar processo de download.')
             pass
 
+publicarPowerBI()
+# user_name = os.getlogin()
+# diretorio_robo = os.getcwd()
 
-user_name = os.getlogin()
-diretorio_robo = os.getcwd()
+# log_filename_start = os.getcwd() + '\\Logs\\' + time.strftime('%d_%m_%Y %H_%M_%S') + '.log'
+# logging.basicConfig(filename=log_filename_start, level=logging.DEBUG, format='%(asctime)s, %(message)s',datefmt='%m/%d/%Y %H:%M:%S')
 
-log_filename_start = os.getcwd() + '\\Logs\\' + time.strftime('%d_%m_%Y %H_%M_%S') + '.log'
-logging.basicConfig(filename=log_filename_start, level=logging.DEBUG, format='%(asctime)s, %(message)s',datefmt='%m/%d/%Y %H:%M:%S')
+# options = Options()
+# options.set_preference('network.proxy.type',0)
+# options.binary_location = carregarParametros()["caminhonavegador"]
 
-options = Options()
-options.set_preference('network.proxy.type',0)
-options.binary_location = carregarParametros()["caminhonavegador"]
+# driver = webdriver.Firefox(options=options)
+# driver2 = webdriver.Firefox(options=options)
+# driver.get('https://tms.mercadolivre.com.br/')
+# driver2.get(carregarParametros()["linkdolooker"])
 
-driver = webdriver.Firefox(options=options)
-driver2 = webdriver.Firefox(options=options)
-driver.get('https://tms.mercadolivre.com.br/')
-driver2.get(carregarParametros()["linkdolooker"])
+# os.system('pause')
+# time.sleep(3)
+# moverArquivos()
 
-os.system('pause')
-time.sleep(3)
-moverArquivos()
 # funcao_principal()
